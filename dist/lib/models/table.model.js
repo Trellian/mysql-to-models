@@ -5,297 +5,436 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-const _ = require('lodash');
-const NamesHelper = require('../helpers/names.helper');
-const xserializer_1 = require("xserializer");
-let Table = class Table {
-    constructor({ TABLE_NAME, TABLE_TYPE, TABLE_COMMENT }, index) {
+var _ = require("lodash");
+var NamesHelper = require("../helpers/names.helper");
+var xserializer_1 = require("xserializer");
+var Table = /** @class */ (function () {
+    function Table(_a, index) {
+        var TABLE_NAME = _a.TABLE_NAME, TABLE_TYPE = _a.TABLE_TYPE, TABLE_COMMENT = _a.TABLE_COMMENT;
         this._index = index;
         this._tableName = TABLE_NAME;
         this._constraints = [];
         this._tableType = TABLE_TYPE;
         this._tableComment = TABLE_COMMENT;
     }
-    get tableName() {
-        return this._tableName;
-    }
-    get tableType() {
-        return this._tableType;
-    }
-    get tableComment() {
-        return this._tableComment;
-    }
-    get columns() {
-        return this._columns;
-    }
-    get sortedColumns() {
-        return this._columns;
-    }
-    get pascalName() {
-        return _.upperFirst(this.camelName);
-    }
-    get pluralPascalName() {
-        return NamesHelper.plural(this.pascalName);
-    }
-    get modelName() {
-        return this.pascalName;
-    }
-    get camelName() {
-        return _.camelCase(this.tableName);
-    }
-    get instanceName() {
-        return this.camelName;
-    }
-    get pluralCamelName() {
-        return NamesHelper.plural(this.camelName);
-    }
-    get pluralInstanceName() {
-        return this.pluralCamelName;
-    }
-    set columns(columns) {
-        this._columns = columns.sort((c1, c2) => {
-            const pos1 = parseInt(c1.ordinalPosition);
-            const pos2 = parseInt(c2.ordinalPosition);
-            if (pos1 < pos2)
-                return -1;
-            else if (pos2 > pos1)
-                return 1;
-            else
-                return 0;
-        });
-    }
-    get primaryKeyColumns() {
-        return this._columns.filter(column => column.isPrimaryKey);
-    }
-    get isEntity() {
-        return true;
-        //return !this.columns.every(column => column.isForeignKey);
-    }
-    get oneToOneRelationships() {
-        return this._oneToOneRelationships;
-    }
-    set oneToOneRelationships(relationships) {
-        this._oneToOneRelationships = relationships;
-    }
-    get oneToManyRelationships() {
-        return this._oneToManyRelationships;
-    }
-    get oneToOneEntityRelationships() {
-        return this.oneToOneRelationships.filter(rel => rel.isBetweenEntities);
-    }
-    set oneToManyRelationships(relationships) {
-        this._oneToManyRelationships = relationships;
-    }
-    get oneToManyEntityRelationships() {
-        return this.oneToManyRelationships.filter(rel => rel.isBetweenEntities);
-    }
-    get manyToManyRelationships() {
-        return this._manyToManyRelationships;
-    }
-    set manyToManyRelationships(relationships) {
-        this._manyToManyRelationships = relationships;
-    }
-    get manyToManyEntityRelationships() {
-        return this.manyToManyRelationships.filter(rel => rel.isBetweenEntities);
-    }
-    get relatedTables() {
-        const relatedTables = [];
-        const appendFunction = (t) => {
-            if (t !== this && relatedTables.lastIndexOf(t) === -1) {
-                relatedTables.push(t);
-            }
-        };
-        this.oneToOneRelationships.forEach(rel => {
-            [rel.oneSideTable, rel.anotherSideTable].forEach(appendFunction);
-        });
-        this.oneToManyRelationships.forEach(rel => {
-            [rel.oneSideTable, rel.manySideTable].forEach(appendFunction);
-        });
-        this.manyToManyRelationships.forEach(rel => {
-            [rel.manySide1Table, rel.manySide2Table, rel.innerTable].forEach(appendFunction);
-        });
-        return relatedTables;
-    }
-    get foreignKeysRelatedTables() {
-        const toret = [];
-        [...this.oneToOneRelationships, ...this.oneToManyRelationships].forEach((rel) => {
-            if (rel.foreignKeys[0].table === this) {
-                if (toret.lastIndexOf(rel.foreignKeys[0].referencedTable) === -1) {
-                    toret.push(rel.foreignKeys[0].referencedTable);
+    Object.defineProperty(Table.prototype, "tableName", {
+        get: function () {
+            return this._tableName;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "tableType", {
+        get: function () {
+            return this._tableType;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "tableComment", {
+        get: function () {
+            return this._tableComment;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "columns", {
+        get: function () {
+            return this._columns;
+        },
+        set: function (columns) {
+            this._columns = columns.sort(function (c1, c2) {
+                var pos1 = parseInt(c1.ordinalPosition);
+                var pos2 = parseInt(c2.ordinalPosition);
+                if (pos1 < pos2)
+                    return -1;
+                else if (pos2 > pos1)
+                    return 1;
+                else
+                    return 0;
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "sortedColumns", {
+        get: function () {
+            return this._columns;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "pascalName", {
+        get: function () {
+            return _.upperFirst(this.camelName);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "pluralPascalName", {
+        get: function () {
+            return NamesHelper.plural(this.pascalName);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "modelName", {
+        get: function () {
+            return this.pascalName;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "camelName", {
+        get: function () {
+            return _.camelCase(this.tableName);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "instanceName", {
+        get: function () {
+            return this.camelName;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "pluralCamelName", {
+        get: function () {
+            return NamesHelper.plural(this.camelName);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "pluralTableName", {
+        get: function () {
+            return NamesHelper.plural(this.tableName);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "pluralInstanceName", {
+        get: function () {
+            return this.pluralCamelName;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "primaryKeyColumns", {
+        get: function () {
+            return this._columns.filter(function (column) { return column.isPrimaryKey; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "isEntity", {
+        get: function () {
+            return true;
+            //return !this.columns.every(column => column.isForeignKey);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "oneToOneRelationships", {
+        get: function () {
+            return this._oneToOneRelationships;
+        },
+        set: function (relationships) {
+            this._oneToOneRelationships = relationships;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "oneToManyRelationships", {
+        get: function () {
+            return this._oneToManyRelationships;
+        },
+        set: function (relationships) {
+            this._oneToManyRelationships = relationships;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "oneToOneEntityRelationships", {
+        get: function () {
+            return this.oneToOneRelationships.filter(function (rel) { return rel.isBetweenEntities; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "oneToManyEntityRelationships", {
+        get: function () {
+            return this.oneToManyRelationships.filter(function (rel) { return rel.isBetweenEntities; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "manyToManyRelationships", {
+        get: function () {
+            return this._manyToManyRelationships;
+        },
+        set: function (relationships) {
+            this._manyToManyRelationships = relationships;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "manyToManyEntityRelationships", {
+        get: function () {
+            return this.manyToManyRelationships.filter(function (rel) { return rel.isBetweenEntities; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "relatedTables", {
+        get: function () {
+            var _this = this;
+            var relatedTables = [];
+            var appendFunction = function (t) {
+                if (t !== _this && relatedTables.lastIndexOf(t) === -1) {
+                    relatedTables.push(t);
                 }
-            }
-        });
-        return toret;
-    }
-    get relatedEntityTables() {
-        return this.relatedTables.filter(t => t.isEntity);
-    }
-    get constraints() {
-        return this._constraints;
-    }
-    /**
-     * Get constraints removing the unique constraints that has a priamary key constraint involving the same columns
-     *
-     * @readonly
-     *
-     * @memberOf Table
-     */
-    get nonRepeatedConstraints() {
-        return this.constraints.filter(cons => {
-            return !cons.isUniqueType || !this.primaryKeyConstraints.find(pkCons => pkCons.involvesColumns(cons.columns));
-        });
-    }
-    get uniqueConstraints() {
-        return this._constraints.filter(cons => cons.isUniqueType);
-    }
-    get nonRepeatedUniqueConstraints() {
-        return this.nonRepeatedConstraints.filter(cons => cons.isUniqueType);
-    }
-    get uniquenessConstraints() {
-        return this._constraints.filter(cons => cons.isUniquenessType);
-    }
-    get nonRepeatedUniquenessConstraints() {
-        return this.nonRepeatedConstraints.filter(cons => cons.isUniquenessType);
-    }
-    get primaryKeyConstraints() {
-        return this._constraints.filter(cons => cons.isPrimaryKeyType);
-    }
-    set constraints(c) {
-        this._constraints = c;
-    }
-    get annotations() {
-        return this._annotations;
-    }
-    set annotations(value) {
-        this._annotations = value;
-    }
-};
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_tableName", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_columns", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_constraints", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_oneToOneRelationships", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_oneToManyRelationships", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_manyToManyRelationships", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_tableType", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_tableComment", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_annotations", void 0);
-__decorate([
-    xserializer_1.Deserialize()
-], Table.prototype, "_index", void 0);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "tableName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "tableType", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "tableComment", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "columns", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "sortedColumns", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "pascalName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "pluralPascalName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "modelName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "camelName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "instanceName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "pluralCamelName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "pluralInstanceName", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "primaryKeyColumns", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "isEntity", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "oneToOneRelationships", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "oneToManyRelationships", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "oneToOneEntityRelationships", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "oneToManyEntityRelationships", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "manyToManyRelationships", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "manyToManyEntityRelationships", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "relatedTables", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "foreignKeysRelatedTables", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "relatedEntityTables", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "constraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "nonRepeatedConstraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "uniqueConstraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "nonRepeatedUniqueConstraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "uniquenessConstraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "nonRepeatedUniquenessConstraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "primaryKeyConstraints", null);
-__decorate([
-    xserializer_1.Serialize()
-], Table.prototype, "annotations", null);
-Table = __decorate([
-    xserializer_1.Serializable(),
-    xserializer_1.Deserializable()
-], Table);
+            };
+            this.oneToOneRelationships.forEach(function (rel) {
+                [rel.oneSideTable, rel.anotherSideTable].forEach(appendFunction);
+            });
+            this.oneToManyRelationships.forEach(function (rel) {
+                [rel.oneSideTable, rel.manySideTable].forEach(appendFunction);
+            });
+            this.manyToManyRelationships.forEach(function (rel) {
+                [rel.manySide1Table, rel.manySide2Table, rel.innerTable].forEach(appendFunction);
+            });
+            return relatedTables;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "foreignKeysRelatedTables", {
+        get: function () {
+            var _this = this;
+            var toret = [];
+            this.oneToOneRelationships.concat(this.oneToManyRelationships).forEach(function (rel) {
+                if (rel.foreignKeys[0].table === _this) {
+                    if (toret.lastIndexOf(rel.foreignKeys[0].referencedTable) === -1) {
+                        toret.push(rel.foreignKeys[0].referencedTable);
+                    }
+                }
+            });
+            return toret;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "relatedEntityTables", {
+        get: function () {
+            return this.relatedTables.filter(function (t) { return t.isEntity; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "constraints", {
+        get: function () {
+            return this._constraints;
+        },
+        set: function (c) {
+            this._constraints = c;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "nonRepeatedConstraints", {
+        /**
+         * Get constraints removing the unique constraints that has a primary key constraint involving the same columns
+         *
+         * @readonly
+         *
+         * @memberOf Table
+         */
+        get: function () {
+            var _this = this;
+            return this.constraints.filter(function (cons) {
+                return !cons.isUniqueType || !_this.primaryKeyConstraints.find(function (pkCons) { return pkCons.involvesColumns(cons.columns); });
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "uniqueConstraints", {
+        get: function () {
+            return this._constraints.filter(function (cons) { return cons.isUniqueType; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "nonRepeatedUniqueConstraints", {
+        get: function () {
+            return this.nonRepeatedConstraints.filter(function (cons) { return cons.isUniqueType; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "uniquenessConstraints", {
+        get: function () {
+            return this._constraints.filter(function (cons) { return cons.isUniquenessType; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "nonRepeatedUniquenessConstraints", {
+        get: function () {
+            return this.nonRepeatedConstraints.filter(function (cons) { return cons.isUniquenessType; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "primaryKeyConstraints", {
+        get: function () {
+            return this._constraints.filter(function (cons) { return cons.isPrimaryKeyType; });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Table.prototype, "annotations", {
+        get: function () {
+            return this._annotations;
+        },
+        set: function (value) {
+            this._annotations = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_tableName", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_columns", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_constraints", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_oneToOneRelationships", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_oneToManyRelationships", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_manyToManyRelationships", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_tableType", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_tableComment", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_annotations", void 0);
+    __decorate([
+        xserializer_1.Deserialize()
+    ], Table.prototype, "_index", void 0);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "tableName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "tableType", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "tableComment", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "columns", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "sortedColumns", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "pascalName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "pluralPascalName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "modelName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "camelName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "instanceName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "pluralCamelName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "pluralTableName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "pluralInstanceName", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "primaryKeyColumns", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "isEntity", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "oneToOneRelationships", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "oneToManyRelationships", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "oneToOneEntityRelationships", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "oneToManyEntityRelationships", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "manyToManyRelationships", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "manyToManyEntityRelationships", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "relatedTables", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "foreignKeysRelatedTables", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "relatedEntityTables", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "constraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "nonRepeatedConstraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "uniqueConstraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "nonRepeatedUniqueConstraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "uniquenessConstraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "nonRepeatedUniquenessConstraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "primaryKeyConstraints", null);
+    __decorate([
+        xserializer_1.Serialize()
+    ], Table.prototype, "annotations", null);
+    Table = __decorate([
+        xserializer_1.Serializable(),
+        xserializer_1.Deserializable()
+    ], Table);
+    return Table;
+}());
 module.exports = Table;
 //# sourceMappingURL=table.model.js.map

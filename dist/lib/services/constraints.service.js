@@ -1,21 +1,28 @@
 "use strict";
-const DbService = require('./db.service');
-const Constraint = require('../models/constraint.model');
-class ConstraintsService extends DbService {
-    constructor(dbConnection, dbConfig) {
-        super(dbConnection, dbConfig);
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var DbService = require("./db.service");
+var Constraint = require("../models/constraint.model");
+var ConstraintsService = /** @class */ (function (_super) {
+    __extends(ConstraintsService, _super);
+    function ConstraintsService(dbConnection, dbConfig) {
+        return _super.call(this, dbConnection, dbConfig) || this;
     }
-    getConstraints() {
-        const sql = `SELECT *
-                FROM information_schema.table_constraints t
-                LEFT JOIN information_schema.key_column_usage k
-                USING(constraint_name, table_schema,table_name)
-                WHERE t.table_schema='${this._dbConfig.database}';`;
+    ConstraintsService.prototype.getConstraints = function () {
+        var sql = "SELECT *\n                FROM information_schema.table_constraints t\n                LEFT JOIN information_schema.key_column_usage k\n                USING(constraint_name, table_schema,table_name)\n                WHERE t.table_schema='" + this._dbConfig.database + "';";
         return this.query(sql)
-            .then(rows => {
-            const constraints = [];
-            rows.forEach(row => {
-                let constraint = constraints.find(constraint => {
+            .then(function (rows) {
+            var constraints = [];
+            rows.forEach(function (row) {
+                var constraint = constraints.find(function (constraint) {
                     return constraint.constraintName === row.CONSTRAINT_NAME
                         && constraint.tableName === row.TABLE_NAME;
                 });
@@ -27,7 +34,8 @@ class ConstraintsService extends DbService {
             });
             return constraints;
         });
-    }
-}
+    };
+    return ConstraintsService;
+}(DbService));
 module.exports = ConstraintsService;
 //# sourceMappingURL=constraints.service.js.map

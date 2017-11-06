@@ -37,6 +37,8 @@ class Column {
     @Deserialize()
     private _phpDataType : string;
     @Deserialize()
+    private _jsonDataType : string;
+    @Deserialize()
     private _annotations : Annotation[];
     @Deserialize()
     private _index : number;
@@ -189,6 +191,27 @@ class Column {
         }
     }
 
+    static getJsonDataType(type : string) {
+        switch(type) {
+            case 'int':
+            case 'tinyint':
+                return 'integer';
+            case 'float':
+            case 'double':
+            case 'decimal':
+                return 'number';
+            case 'bool':
+                return 'boolean';
+            case 'date':
+            case 'datetime':
+            case 'timestamp':
+                return 'string';//¿?
+            default:
+                return 'string';   
+        }
+    }
+    
+    
     @Serialize()
     get phpDataType() {
         if (!this._phpDataType) {
@@ -198,6 +221,14 @@ class Column {
         return this._phpDataType;
     }
 
+    @Serialize()
+    get jsonDataType() {
+        if (!this._jsonDataType) {
+            return Column.getJsonDataType(this.dataType);
+        }
+
+        return this._jsonDataType;
+    }
     @Serialize()
     get isPrimaryKey() {
         return this.columnKey === 'PRI';

@@ -101,6 +101,11 @@ class Table {
     }
 
     @Serialize()
+    get pluralTableName() {
+        return NamesHelper.plural(this.tableName);
+    }
+
+    @Serialize()
     get pluralInstanceName() {
        return this.pluralCamelName;
     }
@@ -220,7 +225,7 @@ class Table {
     }
 
     /**
-     * Get constraints removing the unique constraints that has a priamary key constraint involving the same columns
+     * Get constraints removing the unique constraints that has a primary key constraint involving the same columns
      * 
      * @readonly
      * 

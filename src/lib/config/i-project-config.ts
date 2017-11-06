@@ -8,6 +8,7 @@ interface IProjectConfig {
         password: string;
         database: string;
     };
+    modelPath: string;
     annotations?: {
         database?: IAnnotation[];
         tables?: {

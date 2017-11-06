@@ -1,5 +1,9 @@
 "use strict";
-class NamesHelper {
+var pluralize = require('pluralize');
+var pascalCase = require('pascal-case');
+var NamesHelper = /** @class */ (function () {
+    function NamesHelper() {
+    }
     /**
      * Get the plural of a name
      *
@@ -8,20 +12,21 @@ class NamesHelper {
      * @return {string} The plural name
      * @memberOf NamesHelper
      */
-    static plural(name) {
-        const vogals = ['a', 'e', 'i', 'o', 'u'];
-        const lastLetter = name.slice(-1);
-        let pluralSufix;
-        if (vogals.lastIndexOf(lastLetter) === -1) {
-            //not vogal
-            pluralSufix = 'es';
-        }
-        else {
-            //vogal
-            pluralSufix = 's';
-        }
-        return `${name}${pluralSufix}`;
-    }
-}
+    NamesHelper.plural = function (name) {
+        return pluralize(name);
+    };
+    /**
+     * Make a string Pascal Cased
+     *
+     * @static
+     * @param {string} name The name to pascalCase
+     * @return {string} The pascalCase name
+     * @memberOf NamesHelper
+     */
+    NamesHelper.pascalName = function (name) {
+        return pascalCase(name);
+    };
+    return NamesHelper;
+}());
 module.exports = NamesHelper;
 //# sourceMappingURL=names.helper.js.map

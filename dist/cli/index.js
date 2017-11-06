@@ -1,23 +1,24 @@
 "use strict";
-const yargs = require('yargs');
-const generate = require('./generate');
-const init = require('./init');
-const argv = yargs.usage('mysql-to-models <command> [args]')
-    .command('init', 'Init the config file', () => {
+Object.defineProperty(exports, "__esModule", { value: true });
+var yargs = require("yargs");
+var generate = require("./generate");
+var init = require("./init");
+var argv = yargs.usage('mysql-objection <command> [args]')
+    .command('init', 'Init the config file', function () {
     init.run();
 })
-    .command('generate [config] [output]', 'Generates the models', ((arv) => {
+    .command('generate [config] [jsonSchemaPath]', 'Generates the models', (function (arv) {
     return yargs.options({
         config: {
             alias: 'c',
-            default: 'config.json'
+            default: 'objection-config.json'
         },
-        output: {
+        modelPath: {
             alias: 'o',
-            default: 'models.json'
+            default: './data/objection'
         }
     });
-}), ((argv) => {
+}), (function (argv) {
     generate.run(argv);
 }))
     .help()

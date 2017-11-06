@@ -1,3 +1,4 @@
 "use strict";
-require('./cli/index');
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./cli/index");
 //# sourceMappingURL=index.js.map

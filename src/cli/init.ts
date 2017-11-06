@@ -26,12 +26,17 @@ export function run() {
         {
             name: 'password',
             type: 'password',
-            message: 'Enter the database password',
+            message: 'Enter the user password',
             default: ''
-        }
+        },
+        {
+            name: 'modelPath',
+            message: 'Enter the output folder for the generated objection.js models and graphql schemas',
+            default: 'data/objection'
+        },
     ];
 
-    inquirer.prompt(questions).then(({configFileName, host, database, user, password}) => {
+    inquirer.prompt(questions).then(({configFileName, host, database, user, password, modelPath}) => {
         const config = {
             minVersion: '0.0.1',
             database: {
@@ -39,7 +44,8 @@ export function run() {
                 database,
                 user,
                 password
-            }
+            },
+            modelPath
         };
 
         const configFileDir = path.resolve(process.cwd(), configFileName);

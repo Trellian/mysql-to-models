@@ -65,90 +65,90 @@ class ManyToManyRelationship extends Relationship {
 
     @Serialize()
     get relationshipNameFromManySide2() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.manySide1Table.instanceName}In${_.upperFirst(this.innerTable.instanceName)}${sufix}`;
+        return `${this.manySide1Table.instanceName}In${_.upperFirst(this.innerTable.instanceName)}${suffix}`;
     }
 
     @Serialize()
     get relationshipNameFromManySide1() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.manySide2Table.instanceName}In${_.upperFirst(this.innerTable.instanceName)}${sufix}`;
+        return `${this.manySide2Table.instanceName}In${_.upperFirst(this.innerTable.instanceName)}${suffix}`;
     }
 
     @Serialize()
     get pluralRelationshipNameFromManySide2() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.manySide1Table.pluralInstanceName}In${_.upperFirst(this.innerTable.instanceName)}${sufix}`;
+        return `${this.manySide1Table.pluralInstanceName}In${_.upperFirst(this.innerTable.instanceName)}${suffix}`;
     }
 
     @Serialize()
     get pluralRelationshipNameFromManySide1() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.manySide2Table.pluralInstanceName}In${_.upperFirst(this.innerTable.instanceName)}${sufix}`;
+        return `${this.manySide2Table.pluralInstanceName}In${_.upperFirst(this.innerTable.instanceName)}${suffix}`;
     }
 
     @Serialize()
     get innerRelationshipNameFromManySide2() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.innerTable.instanceName}With${_.upperFirst(this.manySide1Table.instanceName)}${sufix}`;
+        return `${this.innerTable.instanceName}With${_.upperFirst(this.manySide1Table.instanceName)}${suffix}`;
     }
 
     @Serialize()
     get innerRelationshipNameFromManySide1() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.innerTable.instanceName}With${_.upperFirst(this.manySide2Table.instanceName)}${sufix}`;
+        return `${this.innerTable.instanceName}With${_.upperFirst(this.manySide2Table.instanceName)}${suffix}`;
     }
 
     @Serialize()
     get pluralInnerRelationshipNameFromManySide2() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.innerTable.pluralInstanceName}With${_.upperFirst(this.manySide1Table.pluralInstanceName)}${sufix}`;
+        return `${this.innerTable.pluralInstanceName}With${_.upperFirst(this.manySide1Table.pluralInstanceName)}${suffix}`;
     }
 
     @Serialize()
     get pluralInnerRelationshipNameFromManySide1() {
-        let sufix  = '';
+        let suffix  = '';
 
         if (this.numberOfRelationshipsWithSameTables > 1) {
-            sufix = this.indexInSameTablesRelationships.toString();
+            suffix = this.indexInSameTablesRelationships.toString();
         }
 
-        return `${this.innerTable.pluralInstanceName}With${_.upperFirst(this.manySide2Table.pluralInstanceName)}${sufix}`;
+        return `${this.innerTable.pluralInstanceName}With${_.upperFirst(this.manySide2Table.pluralInstanceName)}${suffix}`;
     }
 
     getNameFromSide(side: Table) {

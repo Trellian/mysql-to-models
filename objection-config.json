@@ -1,0 +1,11 @@
+{
+"minVersion":"0.0.1",
+"database":
+    {
+    "host":"localhost",
+    "database":"objection",
+    "user":"root",
+    "password":"xxxxxxx"
+    },
+"modelPath":"data/objection"
+}

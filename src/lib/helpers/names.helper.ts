@@ -1,3 +1,6 @@
+var pluralize = require('pluralize')
+var pascalCase = require('pascal-case')
+
 class NamesHelper {
 
     /**
@@ -9,19 +12,19 @@ class NamesHelper {
      * @memberOf NamesHelper
      */
     static plural(name : string) {
-        const vogals = ['a', 'e', 'i', 'o', 'u'];
-        const lastLetter = name.slice(-1);
-        let pluralSufix : string;
-        
-        if (vogals.lastIndexOf(lastLetter) === -1) {
-            //not vogal
-            pluralSufix = 'es';
-        } else {
-            //vogal
-            pluralSufix = 's';
-        }
+        return pluralize(name);
+    }
 
-        return `${name}${pluralSufix}`;
+    /**
+     * Make a string Pascal Cased 
+     * 
+     * @static
+     * @param {string} name The name to pascalCase
+     * @return {string} The pascalCase name
+     * @memberOf NamesHelper
+     */
+    static pascalName(name : string) {
+        return pascalCase(name);
     }
 }
 

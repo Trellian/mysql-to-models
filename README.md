@@ -1,27 +1,36 @@
-# mysql-to-models
+# mysql-to-objection
 
-A database JSON schema generator form an existing mysql database.
+A database to Objection.js models from an existing mysql database 
 
 ## Description
 
 This app generates a full schema of a database with tables, columns, constraints and relationships from an existing database.
 
+The objection.js object models/relations and the graphQL schema are implemented as base classes for each table, with a separate set of derived, empty classes in a parent folder. The derived classes are generated once, and can be modified to add features. Once the derived classes have been generated, they will not be overridden on the next generate, allowing for persistent added features.
+
 
 ## Installation
 
 1. Install nodejs v6 or greater.
-4. Do `npm install -g mysql-to-models`.
 
 ## Usage
 
-1. Do `mysql-to-models init` to create a database config file (only the first time).
-2. Do `mysql-to-models generate [<config.json>] [<models.json>]` to generate the models file of the database.
+1. Do `mysql-to-objection init` to create a database config file (only the first time).
+2. Do `mysql-to-objection generate` to generate the models file of the database.
 
-More info is provided using `mysql-to-models --help`.
+The Objection.js model files will be generated in the modelFolder configured in the 'init' step.
+
+The objection models for use with Objection.js will be generated in subfolder './data/objection/base' as individual files for each table model.
+
+The graphQL Schema files for use with graphQL will be generated in subfolders 'outputFolder/graphql/base and outputFolder/graphql' as individual files for each table, with graphql/schema.js to collate them. They can still be imported separately if required. Import the files directly from graphql
+
+
+More info is provided using `mysql-to-objection --help`.
 
 ## License
 
-Copyright 2016 Mart√≠n Molina √Ålvarez
+Copyright 2017 Adrian Velcich
+Derived from mysql-to-models by MartÌn Molina ¡lvarez <https://github.com/tomymolina/mysql-to-models> 
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

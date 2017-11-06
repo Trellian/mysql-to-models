@@ -48,8 +48,6 @@ class SchemaService extends DbService {
         ])
             .then(([columns, foreignKeys, tables, constraints]: [Column[], ForeignKey[], Table[], Constraint[]]) => {
 
-
-
                 //Bind foreignKey to columns
                 columns.forEach(col => {
                     col.foreignKey = foreignKeys.find(fk => {
@@ -69,9 +67,12 @@ class SchemaService extends DbService {
                     });
                 });
 
-                //Bind table, column, referenced table and referecend column to foreign keys
+                //Bind table, column, referenced table and referenced column to foreign keys
                 foreignKeys.forEach(fk => {
                     fk.table = tables.find(table => table.tableName === fk.tableName);
+                    
+//                    console.log('Foreign Key: ' + fk.constraintName + ' on table ' + fk.table.tableName + ', to referenced table: ' + fk.referencedTableName);
+                    
                     fk.column = fk.table.columns.find(col => col.columnName === fk.columnName);
                     fk.referencedTable = tables.find(table => table.tableName === fk.referencedTableName);
                     fk.referencedColumn = fk.referencedTable.columns.find(col => col.columnName === fk.referencedColumnName);

@@ -1,12 +1,13 @@
 "use strict";
-class DbService {
-    constructor(dbConnection, dbConfig) {
+var DbService = /** @class */ (function () {
+    function DbService(dbConnection, dbConfig) {
         this._dbConnection = dbConnection;
         this._dbConfig = dbConfig;
     }
-    query(sql) {
-        return new Promise((resolve, reject) => {
-            this._dbConnection.query(sql, (err, rows, fields) => {
+    DbService.prototype.query = function (sql) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this._dbConnection.query(sql, function (err, rows, fields) {
                 if (err) {
                     reject(err);
                 }
@@ -15,7 +16,8 @@ class DbService {
                 }
             });
         });
-    }
-}
+    };
+    return DbService;
+}());
 module.exports = DbService;
 //# sourceMappingURL=db.service.js.map

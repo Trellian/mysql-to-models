@@ -35,6 +35,9 @@ class ForeignKey {
         this._constraintName = CONSTRAINT_NAME;
         this._referencedTableName = REFERENCED_TABLE_NAME;
         this._referencedColumnName = REFERENCED_COLUMN_NAME;
+//	      console.log('New Foreign Key: ' + CONSTRAINT_NAME);
+//	      console.log('  Table:            ' + TABLE_NAME)
+//	      console.log('  Referenced Table: ' + REFERENCED_TABLE_NAME + '\n');
     }
 
     @Serialize()

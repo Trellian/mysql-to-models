@@ -1,7 +1,7 @@
 {
-  "name": "mysql-to-models",
+  "name": "mysql-to-objection",
   "version": "0.1.0",
-  "description": "Generates a database JSON schema from an existing mysql database",
+  "description": "Generates an objection.js JSON and graphQL schema from an existing mysql database",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,19 +9,31 @@
   },
   "preferGlobal": true,
   "bin": {
-    "mysql-to-models": "bin/mysql-to-models.js"
+    "mysql-to-objection": "bin/mysql-to-objection.js"
   },
-  "author": "tomymolina <http://about.me/tomymolina>",
+  "author": "Trellian",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomymolina/xserializer.git"
+    "url": "https://github.com/Trellian/mysql-to-objection"
   },
   "license": "ISC",
   "dependencies": {
+    "@types/gulp": "^4.0.4",
+    "@types/node": "^8.0.41",
+    "graceful-fs": "^4.1.11",
+    "gulp": "^3.9.1",
+    "gulp-changed": "^3.1.0",
+    "gulp-debug-streams": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-template": "^4.0.0",
     "inquirer": "^1.2.3",
+    "json-stringify-safe": "^5.0.1",
     "lodash": "^4.16.6",
     "mysql": "^2.11.1",
+    "pascal-case": "^2.0.1",
     "pcre-to-regexp": "0.0.4",
+    "pluralize": "^7.0.0",
+    "pump": "^1.0.2",
     "reflect-metadata": "^0.1.8",
     "xserializer": "0.0.5",
     "yargs": "^6.4.0"
